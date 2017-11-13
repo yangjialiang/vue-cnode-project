@@ -29,6 +29,7 @@ export default {
   background: rgb(14, 227, 179);
   font-family: " 微软雅黑";
   color: white;
+  z-index: 1;
 }
 .title {
   width: 50%;
