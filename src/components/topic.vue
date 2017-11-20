@@ -1,19 +1,19 @@
 <template>
   <transition name="topic">
-    <div id="Topic" class="page" v-show="topicId">
+    <div id="Topic" class="page" :id="topicId">
       <v-header>
         <div class="title" slot="title">文章详情页</div>
         <div class="comeBackBtn" slot="left" @click="comeBack"></div>
       </v-header>
       <div class="TopicCon">
-        <div class="markdown-text" v-html="compiledMarkdown"></div>
+        <h1 v-text="title"></h1>
+        <!-- <hr> -->
+        <div v-html="content"></div>
       </div>
     </div>
   </transition>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex';
-import marked from 'marked';
 import Header from './header';
 import { getInfo } from '../common/axiosUtil';
 
@@ -21,40 +21,36 @@ export default {
   name: 'Topic',
   data() {
     return {
-      content: ''
+      content: '',
+      title: '',
+      topicId: '',
     };
   },
-  computed: {
-    ...mapState(['topicId']),
-    compiledMarkdown() {
-      return marked(this.content, { sanitize: true });
+  methods: {
+    comeBack() {
+      history.go(-1);
     }
   },
-  methods: {
-    ...mapMutations(['changeState']),
-    comeBack() {
-      this.changeState({ 'topicId': '' });
-    }
+  beforeCreate() {
+    this.topicId = this.$route.params.topicId;
+    this.content = '';
+    this.title = '';
+    const url = `https://cnodejs.org/api/v1//topic/${this.topicId}`;
+    getInfo(
+      url,
+      {
+        mdrender: true
+      },
+      (data) => {
+        this.content = `${data.data.content}`;
+        if (!this.content.includes('h1')) {
+          this.title = `${data.data.title}`;
+        }
+        console.log(data.data);
+      }
+    );
   },
   components: { 'v-header': Header },
-  watch: {
-    topicId(newVal) {
-      this.content = '';
-      if (newVal) {
-        const url = `https://cnodejs.org/api/v1//topic/${newVal}`;
-        getInfo(
-          url,
-          {
-            mdrender: false
-          },
-          (data) => {
-            this.content = data.data.content;
-            console.log(data.data.content);
-          }
-        );
-      }
-    }
-  }
 };
 </script>
 <style scoped>
@@ -78,6 +74,20 @@ export default {
   overflow-x: hidden;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
+}
+.TopicCon>h1,.TopicCon>hr{
+  width: 90%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.TopicCon>h1{
+    font-family: "Microsoft Yahei", Helvetica, arial, sans-serif;
+    padding: 0;
+    font-weight: bold;
+    text-align: left;
+    -webkit-print-color-adjust: exact;
+    font-size: 28px;
+    color: #2b3f52;
 }
 .topic-enter-active,
 .topic-leave-active {

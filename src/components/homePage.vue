@@ -5,41 +5,47 @@
       <div class="menuBtn" @click="menu" slot="left"></div>
     </v-header>
     <v-list></v-list>
-    <v-topic></v-topic>
-    <v-menu></v-menu>
-    <v-writePosts></v-writePosts>
+    <v-menu :showMenu = "showMenu" :closeMenu = "remove"></v-menu>
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex';
 import Header from './header';
 import Menu from './memu';
 import List from './list';
-import Topic from './topic';
-import WritePosts from './writePosts';
 
 export default {
   name: 'homePage',
   data() {
     return {
-      msg: 'hello homePage'
+      showMenu: false,
     };
   },
-  computed: {
-    ...mapState(['showMenu'])
-  },
   methods: {
-    ...mapMutations(['changeState']),
+    remove() {
+      this.showMenu = false;
+    },
     menu() {
-      this.changeState({ showMenu: true });
+      this.showMenu = true;
     }
   },
   components: {
     'v-header': Header,
     'v-menu': Menu,
-    'v-list': List,
-    'v-topic': Topic,
-    'v-writePosts': WritePosts
+    'v-list': List
   }
 };
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.5s, opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
+</style>

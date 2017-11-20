@@ -1,6 +1,5 @@
 <template>
-  <transition name="writePosts">
-    <div class="writePosts page" v-show="showWrite">
+    <div class="writePosts page">
       <v-header>
         <div class="title" slot="title">发送主题</div>
         <div id="comeBack" slot="left" @click="comeBack">取消</div>
@@ -20,11 +19,9 @@
         <div class="seeBtn" @click="seeMarkdown">预览</div>
       </div>       
     </div>
-  </transition>
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex';
   import marked from 'marked';
   import Header from './header';
   import { postInfo } from '../common/axiosUtil';
@@ -39,13 +36,11 @@
       };
     },
     computed: {
-      ...mapState(['showWrite']),
       compiledMarkdown() {
         return marked(this.poststext, { sanitize: true });
       }
     },
     methods: {
-      ...mapMutations(['changeState']),
       sendMessage() {
         if (this.poststext.trim().length > 0 && this.poststitle.trim().length > 0) {
           postInfo(
@@ -67,11 +62,10 @@
         }
       },
       comeBack() {
-        this.changeState({ 'showWrite': false });
+        history.go(-1);
       },
       writePostsText() {
         this.$refs.PostsText.focus();
-        console.log(this.$refs.PostsText);
       },
       seeMarkdown() {
         this.showMarkdown = !this.showMarkdown;
@@ -110,12 +104,9 @@
     padding: 0;
     border-radius:0; 
     font-size: 0.46rem;
-    /* font-size: 0.5rem; */
     border-bottom: 1px dashed black;
     outline:none;
-    /* background-color: rgba(0, 0, 0, 0.5); */
     display: block;
-    /* margin-top: 1rem; */
   }
   #postsText{
     width: 100%;
@@ -151,18 +142,7 @@
   }
   #comeBack{
     left: 0;
-  }
-  .writePosts-enter-active,
-  .writePosts-leave-active {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-    transition: transform 0.5s, opacity 0.5s;
-  }
-  .writePosts-enter,
-  .writePosts-leave-to {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
-  }
+  } 
   .seeBtn{
     width: 1.2rem;
     height: 0.6rem;

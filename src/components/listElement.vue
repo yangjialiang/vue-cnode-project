@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
 
 export default {
   name: 'listElement',
@@ -49,9 +48,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['changeState']),
     showTopic() {
-      this.changeState({ 'topicId': this.listInfo.id });
+      this.$router.push(`/homepage/topic/${this.listInfo.id}`);
     },
     getTime: (_time) => {
       const nowTime = new Date();
@@ -107,10 +105,8 @@ export default {
     padding:0.02rem 0.05rem;
     font-size: 0.23rem;
     float: left;
-    /* color: rgb(151,151,151); */
     color: #fff;
     background-color: #fc4f1e;
-    /* background-color: rgb(225,225,225); */
   }
   .listTypeName.good {
     color: white;

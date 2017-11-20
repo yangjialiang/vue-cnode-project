@@ -1,5 +1,5 @@
 <template>
-  <div :class="['menuCon',showMenu?'show':'']" @click="remove">
+  <div :class="['menuCon',showMenu?'show':'']" @click="closeMenu">
     <div class="menu">
       <div class="avatarCon">
         <img src="../assets/images/headImg.jpg" alt="" width="80" class="avatar">
@@ -30,8 +30,10 @@
             <p>关于</p>
           </li>
           <li class="line"></li>
-          <li @click="showWrite">
-            <p>写帖</p>
+          <li>
+            <router-link to="/homepage/writePosts">
+              <p>写帖</p>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -40,7 +42,7 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex';
+  import { mapMutations } from 'vuex';
 
   export default {
     name: 'mymenu',
@@ -50,21 +52,15 @@
       };
     },
     computed: {
-      ...mapState(['showMenu'])
     },
     methods: {
       ...mapMutations(['changeState']),
-      remove() {
-        this.changeState({ showMenu: false });
-      },
       changeType(e) {
         // e.stopPropagation();
         this.changeState({ listType: e.target.type });
-      },
-      showWrite() {
-        this.changeState({ showWrite: true });
       }
-    }
+    },
+    props: ['showMenu', 'closeMenu']
   };
 
 </script>

@@ -4,10 +4,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
-  showMenu: false,
-  showWrite: false,
   listType: 'share',
-  topicId: ''
 };
 const mutations = {
   changeState(oldVal, newVal) {
