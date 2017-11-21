@@ -23,6 +23,7 @@
 
 <script>
   import marked from 'marked';
+  import { mapState } from 'vuex';
   import Header from './header';
   import { postInfo } from '../common/axiosUtil';
 
@@ -36,6 +37,7 @@
       };
     },
     computed: {
+      ...mapState(['accesstoken']),
       compiledMarkdown() {
         return marked(this.poststext, { sanitize: true });
       }
@@ -45,13 +47,19 @@
         if (this.poststext.trim().length > 0 && this.poststitle.trim().length > 0) {
           postInfo(
             'https://cnodejs.org/api/v1/topics?', {
-              accesstoken: 'c3337ce2-49b6-4e25-a081-e03f0510cd9c',
+              accesstoken: this.accesstoken,
               title: this.poststitle,
               tab: 'dev',
               content: this.poststext,
             }, (data) => {
               if (data.success) {
                 console.log(data);
+                history.go(-1);
+              } else {
+                alert(data.error_msg);
+                if (data.error_msg.includes('accessToken')) {
+                  this.$router.push('/homepage/login');
+                }
               }
             }
           );
@@ -62,7 +70,11 @@
         }
       },
       comeBack() {
-        history.go(-1);
+        if (history.length === 1) {
+          this.$router.push('/');
+        } else {
+          history.go(-1);
+        }
       },
       writePostsText() {
         this.$refs.PostsText.focus();
@@ -118,6 +130,7 @@
     -webkit-overflow-scrolling: touch;
   }
   #postsTextInput{
+    display: block;
     outline:none;
     resize: none;
     word-wrap:break-word;

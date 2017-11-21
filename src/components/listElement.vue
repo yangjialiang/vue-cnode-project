@@ -59,6 +59,7 @@ export default {
       if (num < 1) {
         if (num * 24 < 1) {
           timeStr = parseInt(num * 24 * 60, 10);
+          timeStr = timeStr === 0 ? 1 : timeStr;
           timeStr += '分钟前';
         } else {
           timeStr = parseInt(num * 24, 10);

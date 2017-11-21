@@ -2,8 +2,8 @@
   <div :class="['menuCon',showMenu?'show':'']" @click="closeMenu">
     <div class="menu">
       <div class="avatarCon">
-        <img src="../assets/images/headImg.jpg" alt="" width="80" class="avatar">
-        <p class="avatarTips">点击头像登录</p>
+        <img :src="userHeadImg" alt="" width="80" class="avatar" @click="login">
+        <p class="avatarTips" v-text="userNameText"></p>
       </div>
       <div>
         <ul>
@@ -30,10 +30,8 @@
             <p>关于</p>
           </li>
           <li class="line"></li>
-          <li>
-            <router-link to="/homepage/writePosts">
-              <p>写帖</p>
-            </router-link>
+          <li @click="writePosts">           
+            <p>写帖</p>
           </li>
         </ul>
       </div>
@@ -42,22 +40,40 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex';
+  import { mapState, mapMutations } from 'vuex';
+  import headerImg from '../assets/images/headImg.jpg';
 
   export default {
     name: 'mymenu',
     data() {
       return {
-        headimg: 'myMenu.headImg'
       };
     },
     computed: {
+      ...mapState(['userName', 'userImg', 'accesstoken']),
+      userHeadImg() {
+        return this.userImg || headerImg;
+      },
+      userNameText() {
+        return this.userName || '点击头像登录';
+      }
     },
     methods: {
       ...mapMutations(['changeState']),
       changeType(e) {
         // e.stopPropagation();
         this.changeState({ listType: e.target.type });
+      },
+      login() {
+        if (!this.accesstoken) {
+          this.$router.push('/homepage/login');
+        }
+      },
+      writePosts() {
+        this.$router.push('/homepage/writePosts');
+        if (!this.accesstoken) {
+          this.$router.push('/homepage/login');
+        }
       }
     },
     props: ['showMenu', 'closeMenu']
@@ -108,6 +124,8 @@
   .avatarTips {
     margin-top: 0.2rem;
     font-size: 0.3rem;
+    width: 1.9rem;
+    text-align: center;
   }
 
   .avatar {

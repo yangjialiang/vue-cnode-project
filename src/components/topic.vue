@@ -1,7 +1,7 @@
 <template>
-  <transition name="topic">
+  <!-- <transition name="topic"> -->
     <div id="Topic" class="page" :id="topicId">
-      <v-header>
+      <v-header class="header">
         <div class="title" slot="title">文章详情页</div>
         <div class="comeBackBtn" slot="left" @click="comeBack"></div>
       </v-header>
@@ -11,7 +11,7 @@
         <div v-html="content"></div>
       </div>
     </div>
-  </transition>
+  <!-- </transition> -->
 </template>
 <script>
 import Header from './header';
@@ -28,7 +28,11 @@ export default {
   },
   methods: {
     comeBack() {
-      history.go(-1);
+      if (history.length === 1) {
+        this.$router.push('/');
+      } else {
+        history.go(-1);
+      }
     }
   },
   beforeCreate() {
@@ -54,6 +58,9 @@ export default {
 };
 </script>
 <style scoped>
+.header{
+  z-index: 1;
+}
 .comeBackBtn {
   width: 1rem;
   height: 1rem;

@@ -4,6 +4,10 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
+  accesstoken: window.localStorage.getItem('accesstoken'),
+  userName: '',
+  userImg: '',
+  userId: '',
   listType: 'share',
 };
 const mutations = {

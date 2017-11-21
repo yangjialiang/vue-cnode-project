@@ -8,7 +8,7 @@ function getInfo(_url, data, callback) {
     callback(response.data);
   })
   .catch((error) => {
-    callback(error);
+    callback(error.response.data);
   });
 }
 function postInfo(_url, data, callback) {
@@ -19,7 +19,7 @@ function postInfo(_url, data, callback) {
     callback(response.data);
   })
   .catch((error) => {
-    callback(error);
+    callback(error.response.data);
   });
 }
 export { getInfo, postInfo };
