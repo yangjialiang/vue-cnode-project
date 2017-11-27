@@ -1,5 +1,5 @@
 <template>
-  <div :class="['menuCon',showMenu?'show':'']" @click="closeMenu">
+  <div :class="['menuCon iconfont',showMenu?'show':'']" @click="closeMenu">
     <div class="menu">
       <div class="avatarCon">
         <img :src="userHeadImg" alt="" width="80" class="avatar" @click="login">
@@ -8,30 +8,30 @@
       <div>
         <ul>
           <li @click="changeType" type='good'>
-            <p>精选</p>
+            <p class="good">精选</p>
           </li>
           <li @click="changeType" type='share'>
-            <p>分享</p>
+            <p class="share">分享</p>
           </li>
           <li @click="changeType" type='ask'>
-            <p>问答</p>
+            <p class="ask">问答</p>
           </li>
           <li @click="changeType" type='job'>
-            <p>招聘</p>
+            <p class="job">招聘</p>
           </li>
           <li @click="changeType" type='dev'>
-            <p>测试</p>
+            <p class="dev">测试</p>
           </li>
           <li class="line"></li>
           <li>
-            <p>设置</p>
+            <p class="set">设置</p>
           </li>
-          <li>
-            <p>关于</p>
+          <li @click="collect">
+            <p class="collect">我的收藏</p>
           </li>
           <li class="line"></li>
           <li @click="writePosts">           
-            <p>写帖</p>
+            <p class="writePosts">写帖</p>
           </li>
         </ul>
       </div>
@@ -71,6 +71,12 @@
       },
       writePosts() {
         this.$router.push('/homepage/writePosts');
+        if (!this.accesstoken) {
+          this.$router.push('/homepage/login');
+        }
+      },
+      collect() {
+        this.$router.push(`/homepage/collect/${this.userName}`);
         if (!this.accesstoken) {
           this.$router.push('/homepage/login');
         }
@@ -151,4 +157,37 @@
     border-bottom: 0.2rem solid rgb(235, 236, 231);
     padding: 0;
   }
+  .good:before{
+    content: "\e870";
+    margin-right: 0.05rem;
+  }
+  .share:before{
+    content: "\e86e";
+    margin-right: 0.05rem;
+  }
+  .ask:before{
+    content: "\e626";
+    margin-right: 0.05rem;
+  }
+  .job:before{
+    content: "\e629";
+    margin-right: 0.05rem;
+  }
+  .dev:before{
+    content: "\e628";
+    margin-right: 0.05rem;
+  }
+  .set:before{
+    content: "\e64b";
+    margin-right: 0.05rem;
+  }
+  .collect:before{
+    content: "\e86d";
+    margin-right: 0.05rem;
+  }
+  .writePosts:before{
+    content: "\e641";
+    margin-right: 0.05rem;
+  }
 </style>
+

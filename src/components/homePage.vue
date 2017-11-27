@@ -16,7 +16,6 @@ import { mapState, mapMutations } from 'vuex';
 import Header from './header';
 import Menu from './memu';
 import List from './list';
-import { postInfo } from '../common/axiosUtil';
 
 export default {
   name: 'homePage',
@@ -29,30 +28,10 @@ export default {
     ...mapState(['accesstoken']),
   },
   created() {
-    if (this.accesstoken) {
-      const url = 'https://cnodejs.org/api/v1/accesstoken';
-      postInfo(url, { accesstoken: this.accesstoken }, (data) => {
-        if (data.success) {
-          const userInfo = {
-            userName: data.loginname,
-            userImg: data.avatar_url,
-            userId: data.id,
-          };
-          this.changeState(userInfo);
-        } else {
-          const userInfo = {
-            userName: '',
-            userImg: '',
-            userId: '',
-            accesstoken: '',
-          };
-          this.changeState(userInfo);
-        }
-      });
-    }
+    this.login();
   },
   methods: {
-    ...mapMutations(['changeState']),
+    ...mapMutations(['changeState', 'login']),
     remove() {
       this.showMenu = false;
     },
@@ -61,8 +40,8 @@ export default {
     }
   },
   watch: {
-    accesstoken(newVal) {
-      console.log(newVal);
+    accesstoken() {
+      this.login();
     }
   },
   components: {

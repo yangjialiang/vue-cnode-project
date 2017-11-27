@@ -4,6 +4,7 @@ import HomePage from '@/components/homePage';
 import Topic from '@/components/topic';
 import WritePosts from '@/components/writePosts';
 import LoginPage from '@/components/login';
+import Collect from '@/components/collect';
 
 
 Vue.use(Router);
@@ -34,6 +35,18 @@ export default new Router({
           path: '/homepage/login',
           name: 'LoginPage',
           component: LoginPage,
+        },
+        {
+          path: '/homepage/collect/:name',
+          name: 'Collect',
+          component: Collect,
+          children: [
+            {
+              path: '/homepage/collect/:name/:topicId',
+              name: 'Topic',
+              component: Topic,
+            }
+          ]
         }
       ]
     },

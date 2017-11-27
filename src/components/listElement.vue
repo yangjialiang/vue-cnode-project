@@ -49,6 +49,10 @@ export default {
   },
   methods: {
     showTopic() {
+      if (this.isCollect) {
+        this.$router.push(`/homepage/collect/${this.$route.params.name}/${this.listInfo.id}`);
+        return;
+      }
       this.$router.push(`/homepage/topic/${this.listInfo.id}`);
     },
     getTime: (_time) => {
@@ -72,7 +76,7 @@ export default {
       return timeStr;
     },
   },
-  props: ['listInfo']
+  props: ['listInfo', 'isCollect']
 };
 </script>
 
