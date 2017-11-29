@@ -1,20 +1,19 @@
 <template>
   <!-- <div> -->
-    <div class="collectPage page">
-      <v-header class="header">
-        <div class="title" slot="title">我的收藏</div>
-        <div class="comeBackBtn" slot="left" @click="comeBack"></div>
-      </v-header>
-      <div id="collectList">
-        <ul>
-          <v-listElement v-for="listInfo in list" :listInfo="listInfo" isCollect='true'></v-listElement>     
-          <div class="loadmoreTips" v-show="loadmoreTips"><img src="../assets/images/loading.gif" alt=""> 加载中...</div>
-        </ul>
+    <transition name="fade" mode="out-in">
+      <div class="collectPage page">
+        <v-header class="header">
+          <div class="title" slot="title">我的收藏</div>
+          <div class="comeBackBtn" slot="left" @click="comeBack"></div>
+        </v-header>
+        <div id="collectList">
+          <ul>
+            <v-listElement v-for="listInfo in list" :listInfo="listInfo"></v-listElement>     
+            <div class="loadmoreTips" v-show="loadmoreTips"><img src="../assets/images/loading.gif" alt=""> 加载中...</div>
+          </ul>
+        </div>
       </div>
-      <transition name="fade" mode="out-in">
-        <router-view/>
-      </transition>
-    </div>
+    </transition>
   <!-- </div> -->
 </template>
 <script>
@@ -35,15 +34,11 @@
     },
     methods: {
       comeBack() {
-        if (history.length === 1) {
-          this.$router.push('/');
-        } else {
-          history.go(-1);
-        }
+        this.$emit('changeView', { 'showCollect': false });
       },
     },
     beforeCreate() {
-      const url = `https://cnodejs.org/api/v1/topic_collect/${this.$route.params.name}`;
+      const url = `https://cnodejs.org/api/v1/topic_collect/${this.$store.state.userName}`;
       getInfo(url, {}, (data) => {
         if (data.success) {
           console.log(data);
@@ -67,8 +62,6 @@
       'v-header': Header,
       'v-listElement': ListEle
     },
-    watch: {
-    }
   };
 
 </script>

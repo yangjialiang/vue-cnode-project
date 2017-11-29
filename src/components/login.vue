@@ -107,7 +107,7 @@
     border-bottom: 1px rgb(235,234,231) solid;
   }
   .keepMessageCon {
-    width: 30%;
+    width: 40%;
     height: auto;
     overflow: hidden;
     margin: .5rem 0 0 5%;   

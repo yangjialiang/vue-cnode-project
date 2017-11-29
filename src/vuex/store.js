@@ -1,15 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { postInfo } from '../common/axiosUtil';
+import login from './mutations';
+
 
 Vue.use(Vuex);
 
 const state = {
-  accesstoken: window.localStorage.getItem('accesstoken'),
+  accesstoken: localStorage.getItem('accesstoken'),
   userName: '',
   userImg: '',
   userId: '',
-  listType: 'share',
+  listType: 'all',
 };
 const mutations = {
   changeState(oldVal, newVal) {
@@ -17,29 +18,17 @@ const mutations = {
       state[element] = newVal[element];
     });
   },
-  login() {
-    if (state.accesstoken) {
-      const url = 'https://cnodejs.org/api/v1/accesstoken';
-      postInfo(url, { accesstoken: state.accesstoken }, (data) => {
-        const userInfo = {
-          userName: '',
-          userImg: '',
-          userId: '',
-          accesstoken: '',
-        };
-        if (data.success) {
-          userInfo.userName = data.loginname;
-          userInfo.userImg = data.avatar_url;
-          userInfo.userId = data.id;
-          userInfo.accesstoken = state.accesstoken;
-        }
-        Object.assign(state, userInfo);
-      });
-    }
+  ...login
+};
+
+const getters = {
+  userName() {
+    return state.userName;
   }
 };
 
 export default new Vuex.Store({
   state,
+  getters,
   mutations,
 });

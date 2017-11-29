@@ -4,6 +4,7 @@
       <div class="avatarCon">
         <img :src="userHeadImg" alt="" width="80" class="avatar" @click="login">
         <p class="avatarTips" v-text="userNameText"></p>
+        <!-- <span>注销</span> -->
       </div>
       <div>
         <ul>
@@ -23,9 +24,9 @@
             <p class="dev">测试</p>
           </li>
           <li class="line"></li>
-          <li>
+          <!-- <li>
             <p class="set">设置</p>
-          </li>
+          </li> -->
           <li @click="collect">
             <p class="collect">我的收藏</p>
           </li>
@@ -67,6 +68,8 @@
       login() {
         if (!this.accesstoken) {
           this.$router.push('/homepage/login');
+        } else {
+          this.$router.push('/homepage/userinfo');
         }
       },
       writePosts() {
@@ -76,9 +79,11 @@
         }
       },
       collect() {
-        this.$router.push(`/homepage/collect/${this.userName}`);
+        // this.$router.push(`/homepage/collect/${this.userName}`);
         if (!this.accesstoken) {
           this.$router.push('/homepage/login');
+        } else {
+          this.$emit('changeView', { 'showCollect': true });
         }
       }
     },
@@ -144,7 +149,7 @@
   li p {
     display: block;
     margin: 0 5%;
-    padding: 12px 0;
+    padding: 0.28rem 0;
     pointer-events: none;
     border-bottom: 1px rgb(235,234,231) solid;
   }
@@ -188,6 +193,11 @@
   .writePosts:before{
     content: "\e641";
     margin-right: 0.05rem;
+  }
+  @media only screen and (max-height: 500px) {
+    .avatarCon {
+      height: 3rem;
+    }
   }
 </style>
 

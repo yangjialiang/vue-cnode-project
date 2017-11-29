@@ -4,7 +4,8 @@ import HomePage from '@/components/homePage';
 import Topic from '@/components/topic';
 import WritePosts from '@/components/writePosts';
 import LoginPage from '@/components/login';
-import Collect from '@/components/collect';
+// import Collect from '@/components/collect';
+import UserInfo from '@/components/userInfo';
 
 
 Vue.use(Router);
@@ -37,16 +38,9 @@ export default new Router({
           component: LoginPage,
         },
         {
-          path: '/homepage/collect/:name',
-          name: 'Collect',
-          component: Collect,
-          children: [
-            {
-              path: '/homepage/collect/:name/:topicId',
-              name: 'Topic',
-              component: Topic,
-            }
-          ]
+          path: '/homepage/userInfo',
+          name: 'UserInfo',
+          component: UserInfo,
         }
       ]
     },

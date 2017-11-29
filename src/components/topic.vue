@@ -4,6 +4,10 @@
       <v-header class="header">
         <div class="title" slot="title">文章详情页</div>
         <div class="comeBackBtn" slot="left" @click="comeBack"></div>
+        <div slot="right" class="iconfont collectBtn" @click="collect">
+          <span v-if="is_collect">&#xe668;</span>
+          <span v-else style="color:white">&#xe669;</span>
+        </div>
       </v-header>
       <div class="TopicCon">
         <h1 v-text="title"></h1>
@@ -14,8 +18,9 @@
   <!-- </transition> -->
 </template>
 <script>
+import { mapState } from 'vuex';
 import Header from './header';
-import { getInfo } from '../common/axiosUtil';
+import { getInfo, postInfo } from '../common/axiosUtil';
 
 export default {
   name: 'Topic',
@@ -24,7 +29,11 @@ export default {
       content: '',
       title: '',
       topicId: '',
+      is_collect: false,
     };
+  },
+  computed: {
+    ...mapState(['accesstoken'])
   },
   methods: {
     comeBack() {
@@ -33,20 +42,64 @@ export default {
       } else {
         history.go(-1);
       }
+    },
+    addCollect() {
+      const url = 'https://cnodejs.org/api/v1/topic_collect/collect';
+      postInfo(
+        url,
+        {
+          accesstoken: this.accesstoken,
+          topic_id: this.topicId
+        },
+        (data) => {
+          if (data.success) {
+            this.is_collect = true;
+          }
+        }
+      );
+    },
+    reduceCollect() {
+      const url = 'https://cnodejs.org/api/v1/topic_collect/de_collect';
+      postInfo(
+        url,
+        {
+          accesstoken: this.accesstoken,
+          topic_id: this.topicId
+        },
+        (data) => {
+          if (data.success) {
+            this.is_collect = false;
+          }
+        }
+      );
+    },
+    collect() {
+      if (this.accesstoken) {
+        if (this.is_collect) {
+          this.reduceCollect();
+        } else {
+          this.addCollect();
+        }
+      } else {
+        this.$router.push('/homepage/login');
+      }
     }
   },
-  beforeCreate() {
+  created() {
     this.topicId = this.$route.params.topicId;
     this.content = '';
+    this.is_collect = false;
     this.title = '';
     const url = `https://cnodejs.org/api/v1//topic/${this.topicId}`;
     getInfo(
       url,
       {
-        mdrender: true
+        mdrender: true,
+        accesstoken: this.accesstoken
       },
       (data) => {
         this.content = `${data.data.content}`;
+        this.is_collect = data.data.is_collect;
         if (!this.content.includes('h1')) {
           this.title = `${data.data.title}`;
         }
@@ -95,6 +148,17 @@ export default {
     -webkit-print-color-adjust: exact;
     font-size: 28px;
     color: #2b3f52;
+}
+.collectBtn{
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    line-height: 1rem;
+    font-size: 0.5rem;
+    color: #f34f4f;
 }
 .topic-enter-active,
 .topic-leave-active {
