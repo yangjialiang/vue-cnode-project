@@ -84,6 +84,7 @@ export default {
   methods: {
     ...mapMutations(['getCollect', 'getUserInfo', 'cancel']),
     comeBack() {
+      console.log(this.$router);
       if (history.length === 1) {
         this.$router.push('/');
       } else {
@@ -101,9 +102,9 @@ export default {
       this.$router.push('/homepage/login');
     }
     if (this.userName) {
-      this.list[0].lists = [];
-      this.list[1].lists = [];
-      this.list[2].lists = [];
+      this.list[0].lists.length = 0;
+      this.list[1].lists.length = 0;
+      this.list[2].lists.length = 0;
       this.getCollect((data) => {
         this.list[0].lists.push(...data);
       });
@@ -131,9 +132,9 @@ export default {
   },
   watch: {
     userName(newVal) {
-      this.list[0].lists = [];
-      this.list[1].lists = [];
-      this.list[2].lists = [];
+      this.list[0].lists.length = 0;
+      this.list[1].lists.length = 0;
+      this.list[2].lists.length = 0;
       if (newVal) {
         this.getCollect((data) => {
           this.list[0].lists.push(...data);

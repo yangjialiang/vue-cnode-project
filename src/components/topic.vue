@@ -1,5 +1,4 @@
 <template>
-  <!-- <transition name="topic"> -->
     <div id="Topic" class="page" :id="topicId">
       <v-header class="header">
         <div class="title" slot="title">文章详情页</div>
@@ -9,13 +8,28 @@
           <span v-else style="color:white">&#xe669;</span>
         </div>
       </v-header>
-      <div class="TopicCon">
-        <h1 v-text="title"></h1>
-        <!-- <hr> -->
-        <div v-html="content"></div>
+      <div class="TopicScrollCon">
+        <div class="TopicCon">
+          <h1 v-text="title"></h1>
+          <div v-html="content"></div>
+        </div>
+        <div class="repliesCon" v-show='content'>
+          <div class="repliesHead">
+            <p class="columnHead">评论：</p>
+          </div>
+          <div class="repliesList" v-for="(item,index) in replies">
+            <!-- <div class="repliesInfo"> -->
+              <div class="authorHead" :style="{backgroundImage: 'url('+item.author.avatar_url+')'}"></div>
+            <!-- </div> -->
+            <div class="repliesTextCon">
+              <div class="authorName" >{{item.author.loginname}}<span>{{index+1}}楼</span></div>
+              <!-- <hr> -->
+              <div v-html="item.content"></div>
+            </div>
+          </div>
+          </div>
       </div>
     </div>
-  <!-- </transition> -->
 </template>
 <script>
 import { mapState } from 'vuex';
@@ -30,6 +44,7 @@ export default {
       title: '',
       topicId: '',
       is_collect: false,
+      replies: [],
     };
   },
   computed: {
@@ -99,6 +114,7 @@ export default {
       },
       (data) => {
         this.content = `${data.data.content}`;
+        this.replies = data.data.replies;
         this.is_collect = data.data.is_collect;
         if (!this.content.includes('h1')) {
           this.title = `${data.data.title}`;
@@ -124,7 +140,7 @@ export default {
   top: 0;
   left: 0;
 }
-.TopicCon {
+.TopicScrollCon {
   width: 100%;
   position: absolute;
   top: 1rem;
@@ -134,6 +150,9 @@ export default {
   overflow-x: hidden;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
+}
+.TopicCon {
+  width: 100%;
 }
 .TopicCon>h1,.TopicCon>hr{
   width: 90%;
@@ -160,14 +179,59 @@ export default {
     font-size: 0.5rem;
     color: #f34f4f;
 }
-.topic-enter-active,
-.topic-leave-active {
-  transform: translate3d(0, 0, 0);
-  transition: transform 0.5s, opacity 0.5s;
+.repliesCon{
+  width: 90%;
+  margin-left: 5%;
+  background-color: rgb(244,252,240);
+  overflow: hidden;
 }
-.topic-enter,
-.topic-leave-to {
-  transform: translate3d(100%, 0, 0);
+.repliesHead {
+  height: 0.78rem;
+  display: flex;
+  align-items: center;
+  border-left: 3px solid orange;
+  background-color: rgb(240,231,225);
+}
+.columnHead{
+  margin-left: 0.2rem; 
+}
+.repliesList{
+  width: 100%;
+  height: auto;
+  border-radius: 0.05rem;
+  overflow: hidden;
+  margin-top: 0.2rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(240,240,240,1);
+}
+.repliesInfo {
+  width: 1rem;
+  /* display:table-cell; */
+}
+.authorHead {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 0.8rem;
+  background-size: cover;
+  /* position: absolute; */
+  margin: 0.1rem;
+  float: left;
+}
+.repliesTextCon{
+  /* display: table-cell; */
+  width: 5.5rem;
+  float: left;
+}
+.authorName{
+  margin-top: 0.1rem;
+  text-align: left;
+  margin-bottom: 0.2rem;
+  /* border-bottom: 1px solid rgba(240,240,240,1); */
+}
+.authorName>span{
+    margin-right: 0.2rem;
+    color: rgb(220,220,240);
+    float: right;
 }
 </style>
 

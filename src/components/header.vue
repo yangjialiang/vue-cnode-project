@@ -26,7 +26,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background: rgb(14, 227, 179);
+  background: rgb(131, 153, 169);
   font-family: " 微软雅黑";
   color: white;
   /* z-index: 1; */
