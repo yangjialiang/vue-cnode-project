@@ -7,14 +7,6 @@
 <script>
 export default {
   name: 'app',
-  mounted() {
-    // console.log(2);
-    // window.onbeforeunload = function (e) {
-    //   e.returnValue = '';
-    //   console.log(e.target.activeElement.href);
-    //   return false;
-    // };
-  },
 };
 </script>
 

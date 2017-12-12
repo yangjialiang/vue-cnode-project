@@ -5,7 +5,6 @@
       <div class="comeBackBtn" slot="left" @click="comeBack"></div>
     </v-header>
     <input type="text" name="accesstoken" id="accesstokenText" v-model="accesstokenText" placeholder="accesstoken:">
-    <!-- <input type="checkbox" name="sex" id="male" /> -->
     <div class="keepMessageCon" @click="isKeep">
       <div id="keepMessage" :class="keep?'active':''"></div>
       <span>下次自动登录</span>

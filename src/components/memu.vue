@@ -4,7 +4,6 @@
       <div class="avatarCon">
         <img :src="userHeadImg" alt="" width="80" class="avatar" @click="login">
         <p class="avatarTips" v-text="userNameText"></p>
-        <!-- <span>注销</span> -->
       </div>
       <div>
         <ul>
@@ -79,13 +78,17 @@
         }
       },
       collect() {
-        // this.$router.push(`/homepage/collect/${this.userName}`);
         if (!this.accesstoken) {
           this.$router.push('/homepage/login');
         } else {
           this.$emit('changeView', { 'showCollect': true });
         }
       }
+    },
+    mounted() {
+      document.getElementsByClassName('menuCon')[0].addEventListener('touchmove', (e) => {
+        e.preventDefault();
+      });
     },
     props: ['showMenu', 'closeMenu']
   };

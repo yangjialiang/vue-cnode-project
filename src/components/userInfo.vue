@@ -10,8 +10,8 @@
           <div class="accountImg"><img :src="userImg" alt="" width="100%"></div>
           <span class="accountName" v-text="userName"></span>
           <div class="accountOther">
-            <span class="coin">积分：{{score}}</span>
-            <span class="time">注册于：1年前</span>
+            <span class="coin" v-text="'积分：'+score"></span>
+            <span class="time" v-text="createdTime"></span>
           </div>
         </div>       
         <v-collapse @updateEve = 'updateEve' v-for="item in list" :item = 'item'></v-collapse>
@@ -60,7 +60,7 @@ export default {
   name: 'userInfo',
   data() {
     return {
-      score: 0,
+      score: '',
       time: 0,
       list: [
         {
@@ -80,6 +80,29 @@ export default {
   },
   computed: {
     ...mapState(['accesstoken', 'userName', 'userImg', 'userId']),
+    createdTime() {
+      if (this.time !== 0) {
+        const nowTime = new Date();
+        const createTime = new Date(this.time);
+        const num = (nowTime - createTime) / (1000 * 3600 * 24);
+        let timeStr;
+        if (num < 1) {
+          if (num * 24 < 1) {
+            timeStr = parseInt(num * 24 * 60, 10);
+            timeStr = timeStr === 0 ? 1 : timeStr;
+            timeStr += '分钟前';
+          } else {
+            timeStr = parseInt(num * 24, 10);
+            timeStr += '小时前';
+          }
+        } else {
+          timeStr = parseInt(num, 10);
+          timeStr += '天前';
+        }
+        return `注册于:${timeStr}`;
+      }
+      return '';
+    }
   },
   methods: {
     ...mapMutations(['getCollect', 'getUserInfo', 'cancel']),
@@ -109,6 +132,7 @@ export default {
         this.list[0].lists.push(...data);
       });
       this.getUserInfo((data) => {
+        console.log(data);
         this.list[1].lists.push(...data.recent_replies);
         this.list[2].lists.push(...data.recent_topics);
         this.time = data.create_at;
@@ -151,9 +175,6 @@ export default {
 };
 </script>
 <style >
-.page{
-  /* background: white; */
-}
 .comeBackBtn {
   width: 1rem;
   height: 1rem;
@@ -195,7 +216,7 @@ export default {
 }
 .accountOther{
   margin: 0.26rem 0;
-  width: 5rem;
+  width: 5.5rem;
   font-size: 0.3rem;
 }
 .coin{
