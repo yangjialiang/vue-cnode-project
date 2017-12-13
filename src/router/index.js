@@ -4,14 +4,13 @@ import HomePage from '@/components/homePage';
 import Topic from '@/components/topic';
 import WritePosts from '@/components/writePosts';
 import LoginPage from '@/components/login';
-// import Collect from '@/components/collect';
 import UserInfo from '@/components/userInfo';
 
 
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/',

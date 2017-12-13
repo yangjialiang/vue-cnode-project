@@ -1,5 +1,5 @@
 <template>
-    <div id="Topic" class="page" :id="topicId">
+    <div id="Topic" class="page" :key="topicId">
       <v-header class="header">
         <div class="title" slot="title">文章详情页</div>
         <div class="comeBackBtn" slot="left" @click="comeBack"></div>

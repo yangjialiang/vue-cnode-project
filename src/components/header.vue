@@ -18,7 +18,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #Header {
   width: 100%;
@@ -29,7 +28,6 @@ export default {
   background: rgb(131, 153, 169);
   font-family: " 微软雅黑";
   color: white;
-  /* z-index: 1; */
 }
 .title {
   width: 50%;
@@ -38,14 +36,5 @@ export default {
   line-height: 1rem;
   text-align: center;
   font-size: 0.4rem;
-}
-.menuBtn {
-  width: 0.6rem;
-  height: 0.6rem;
-  background: url("../assets/images/menuIcon.png") no-repeat;
-  background-size: contain;
-  position: absolute;
-  top: 0.2rem;
-  left: 0.2rem;
 }
 </style>

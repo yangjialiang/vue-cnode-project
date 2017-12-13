@@ -6,6 +6,15 @@
         <div id="sendBtn" slot="right" @click="sendMessage">发表</div>
       </v-header>
       <div>
+        <div class="selectCon">
+          选择版块：
+          <select v-model="tab">
+            <option value="share">分享</option>
+            <option value ="ask">问答</option>
+            <option value="job">招聘</option>
+            <option value ="dev">测试</option>
+          </select>
+        </div>
         <div class="postsTitleCon">
           <div>主题：</div><input id="postsTitle" placeholder="请输入标题" type="text" v-model="poststitle">
         </div>
@@ -14,7 +23,7 @@
           <div id="postsText" v-show="showMarkdown">
             <div class="markdown-text" v-html="compiledMarkdown"></div>
           </div>
-          <textarea id="postsTextInput" v-show="!showMarkdown" v-model="poststext"></textarea>
+          <textarea id="postsTextInput" v-show="!showMarkdown" v-model="poststext" placeholder="支持Markdown格式"></textarea>
         </div>
         <div class="seeBtn" @click="seeMarkdown">预览</div>
       </div>       
@@ -33,7 +42,8 @@
       return {
         poststitle: '',
         poststext: '',
-        showMarkdown: false
+        showMarkdown: false,
+        tab: 'share'
       };
     },
     computed: {
@@ -49,11 +59,12 @@
             'https://cnodejs.org/api/v1/topics?', {
               accesstoken: this.accesstoken,
               title: this.poststitle,
-              tab: 'dev',
+              tab: this.tab,
               content: this.poststext,
             }, (data) => {
               if (data.success) {
                 console.log(data);
+                alert('发布成功');
                 history.go(-1);
               } else {
                 alert(data.error_msg);
@@ -92,9 +103,20 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .selectCon{    
+    width: 90%;
+    text-align: left;
+    font-size: 0.5rem;
+    margin: 1.5rem 5% 0;
+  }
+  .selectCon>select{
+    font-size: 0.5rem;
+    width: 50%;
+    border: none;
+  }
   .postsTitleCon{
     width: 90%;
-    margin: 1.5rem 5% 0;
+    margin: 0.2rem 5% 0;
     text-align: left;
     font-size: 0.5rem;
   }

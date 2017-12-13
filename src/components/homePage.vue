@@ -3,6 +3,7 @@
     <v-header>
       <div class="title" slot="title">首页</div>
       <div class="menuBtn" @click="menu" slot="left"></div>
+      <div class="writeBtn iconfont" @click="writePosts" slot="right"></div>
     </v-header>
     <v-list></v-list>
     <v-menu :showMenu = "showMenu" @changeView = "changeView" :closeMenu = "remove"></v-menu>
@@ -46,7 +47,13 @@ export default {
     },
     changeView(data) {
       Object.assign(this, data);
-    }
+    },
+    writePosts() {
+      this.$router.push('/homepage/writePosts');
+      if (!this.accesstoken) {
+        this.$router.push('/homepage/login');
+      }
+    },
   },
   watch: {
     accesstoken() {
@@ -62,6 +69,26 @@ export default {
 };
 </script>
 <style scoped>
+.menuBtn {
+  width: 0.6rem;
+  height: 0.6rem;
+  background: url("../assets/images/menuIcon.png") no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+}
+.writeBtn{
+    width: 0.6rem;
+    height: 0.6rem;
+    position: absolute;
+    top: 0.2rem;
+    right: 0.2rem;
+}
+.writeBtn::before{
+  content: '\E641';
+  font-size: 0.58rem;
+}
 .fade-enter-active,
 .fade-leave-active {
   transform: translate3d(0, 0, 0);

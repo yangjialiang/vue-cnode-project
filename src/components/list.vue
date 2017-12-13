@@ -3,7 +3,8 @@
     <ul>
       <div class="refreshTips" v-show="refreshTips"><img src="../assets/images/loading.gif" alt=""> 正在刷新...</div>
       <v-listElement v-for="listInfo in list" :listInfo="listInfo"></v-listElement>     
-      <div class="loadmoreTips"><img src="../assets/images/loading.gif" alt=""> 加载中...</div>
+      <div class="loadmoreTips" v-if="!allLoaded"><img src="../assets/images/loading.gif" alt=""> 加载中...</div>
+      <div v-else>全部加载完啦^_^</div>
     </ul>
   </div>
 </template>
@@ -22,6 +23,7 @@ export default {
       scroll: '',
       refreshTips: false,
       listUpdate: false,
+      allLoaded: false,
     };
   },
   computed: {
@@ -29,7 +31,9 @@ export default {
   },
   methods: {
     resetList() {
+      // 列表初始化
       this.page = 1;
+      this.allLoaded = false;
       getInfo(
         'https://cnodejs.org/api/v1/topics?',
         {
@@ -38,7 +42,6 @@ export default {
         },
         (data) => {
           if (data.success) {
-            console.log(data);
             this.listUpdate = true;
             this.list = data.data;
           }
@@ -48,7 +51,6 @@ export default {
     },
     loadMore() {
       // 上拉加载更多
-      // this.loading = true;
       const self = this;
       this.page += 1;
       getInfo(
@@ -61,12 +63,10 @@ export default {
             this.list = self.list.concat(data.data);
 
             if (data.data.length === 0) {
-              // self.allLoaded = true;
+              this.allLoaded = true;
             } else {
-              // self.allLoaded = false;
+              this.allLoaded = false;
             }
-            // self.loading = false;
-            // self.$refs.loadmore.onBottomLoaded();
           }
         }
       );
@@ -74,6 +74,7 @@ export default {
   },
   watch: {
     listType() {
+      // 监听显示内容类型
       this.list = [];
       this.resetList();
       this.scroll.scrollTo(0, 0);

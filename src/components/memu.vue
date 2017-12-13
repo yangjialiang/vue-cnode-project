@@ -23,15 +23,8 @@
             <p class="dev">测试</p>
           </li>
           <li class="line"></li>
-          <!-- <li>
-            <p class="set">设置</p>
-          </li> -->
           <li @click="collect">
             <p class="collect">我的收藏</p>
-          </li>
-          <li class="line"></li>
-          <li @click="writePosts">           
-            <p class="writePosts">写帖</p>
           </li>
         </ul>
       </div>
@@ -69,12 +62,6 @@
           this.$router.push('/homepage/login');
         } else {
           this.$router.push('/homepage/userinfo');
-        }
-      },
-      writePosts() {
-        this.$router.push('/homepage/writePosts');
-        if (!this.accesstoken) {
-          this.$router.push('/homepage/login');
         }
       },
       collect() {
