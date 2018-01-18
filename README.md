@@ -30,5 +30,5 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 * 帖子详情页
 * 发帖，评论，点赞，收藏文章等
 
-[线上地址](https://0x9.me/IREGd)
-![{21A53D19-AE39-484F-95A8-4AC3455499DE}.bmp](//dn-cnode.qbox.me/FjX8M6vC3xR2N1G--vAp3gFskjjg)
+[线上地址](https://yangjialiang.github.io/vue-cnode-project/dists/#/homepage)
+![二维码](http://dn-cnode.qbox.me/FjX8M6vC3xR2N1G--vAp3gFskjjg)
