@@ -49,9 +49,10 @@ export default {
       Object.assign(this, data);
     },
     writePosts() {
-      this.$router.push('/homepage/writePosts');
       if (!this.accesstoken) {
-        this.$router.push('/homepage/login');
+        this.$router.push('/homepage/writePosts/login');
+      } else {
+        this.$router.push('/homepage/writePosts');
       }
     },
   },

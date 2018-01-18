@@ -30,6 +30,13 @@ export default new Router({
           path: '/homepage/writePosts',
           name: 'WritePosts',
           component: WritePosts,
+          children: [
+            {
+              path: '/homepage/writePosts/login',
+              name: 'LoginPage',
+              component: LoginPage,
+            }
+          ]
         },
         {
           path: '/homepage/login',

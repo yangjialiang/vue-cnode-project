@@ -27,6 +27,9 @@
         </div>
         <div class="seeBtn" @click="seeMarkdown">预览</div>
       </div>       
+      <transition name="fade" mode="out-in">
+        <router-view/>
+      </transition>
     </div>
 </template>
 
@@ -144,7 +147,7 @@
   }
   #postsText{
     width: 100%;
-    height: 7rem;
+    height: 5rem;
     background: rgba(255, 255, 255, 1);
     border: none;
     overflow: scroll;
@@ -157,7 +160,7 @@
     resize: none;
     word-wrap:break-word;
     width: 100%;
-    height: 7rem;
+    height: 5rem;
     background: rgba(255, 255, 255, 1);
     border: 0;
     margin: 0;
@@ -185,5 +188,14 @@
     margin: 0.5rem;
     background: rgb(14, 227, 179);
     border-radius: 0.1rem;
+  }
+  .fade-enter-active,
+  .fade-leave-active {
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.5s, opacity 0.5s;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    transform: translate3d(100%, 0, 0);
   }
 </style>

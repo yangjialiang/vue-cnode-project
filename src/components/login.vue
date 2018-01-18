@@ -32,6 +32,7 @@
         if (history.length === 1) {
           this.$router.push('/');
         } else {
+          console.log(location.href);
           history.go(-1);
         }
       },
@@ -57,7 +58,11 @@
               window.localStorage.setItem('accesstoken', '');
             }
             this.changeState(userInfo);
-            history.go(-1);
+            if (location.href.includes('homepage/writePosts/login')) {
+              this.$router.replace('/homepage/writePosts');
+            } else {
+              history.go(-1);
+            }
           } else {
             alert(data.error_msg);
           }
